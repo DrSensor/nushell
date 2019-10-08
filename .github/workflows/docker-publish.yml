@@ -78,7 +78,7 @@ jobs:
         REGISTRY: quay.io/${{ github.actor }}
 
     #region semantics tagging
-    - name: Retag and push without suffixing version
+    - name: Retag and push with suffixed version
       run: |-
         VERSION=${GITHUB_REF##*/}
 
@@ -87,7 +87,7 @@ jobs:
         latest_patch=${VERSION%.*}-${{ matrix.tag }}
         exact_version=${VERSION}-${{ matrix.tag }}
 
-        tags=( latest_version latest_feature latest_patch exact_version )
+        tags=( ${latest_version} ${latest_feature} ${latest_patch} ${exact_version} )
 
         for tag in ${tags[@]}; do
           docker tag ${REGISTRY,,}/nu:${VERSION}-${{ matrix.tag }} ${REGISTRY,,}/nu:${tag}
